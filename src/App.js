@@ -1,19 +1,43 @@
 import './App.css';
-import {useState} from 'react';
+import {useState, useEffect, useCallback, useMemo} from 'react';
 
 
 function App() {
 
 
-  const [usd, setUSD] = useState(30);
-  const [eur, setEUR] = useState(40);
-  const [uah, setUah] = useState(1);
+  const [usd, setUSD] = useState(37);
+  const [eur, setEUR] = useState(38);
+  const uah = 1;
 
   const [fromCurr, setFromCurr] = useState(uah)
   const [toCurr, setToCurr] = useState(usd)
 
   const [inp, setInp] = useState(0);
   const [outp, setOutp] = useState(0);
+
+  // const request = useCallback((curr)=>{
+  //   async function fetchData() {
+  //     const myHeaders = new Headers();
+  //     myHeaders.append("apikey", "Iy4nwrYqQQXU8thcn28N5kZaMtCdPeyU");
+  
+  //     const requestOptions = {
+  //       method: 'GET',
+  //       redirect: 'follow',
+  //       headers: myHeaders
+  //     };
+
+  //     const response = await fetch(`https://api.apilayer.com/exchangerates_data/convert?to=${curr}&from=UAH&amount=1`, requestOptions);
+  //     const result = await response.text()
+  //     const res = await JSON.parse(result)
+  //     curr === 'USD' ?  setUSD(Math.round(1/res.result*100)/100) :  setEUR(Math.round(1/res.result * 100)/100);
+      
+  //   }    
+  //   fetchData();
+  // },[])
+
+  // useEffect(()=>{request('USD'); setToCurr(usd)}, []);
+  // useEffect(()=>{request('EUR');setToCurr(eur)}, []);
+
 
 
   const calcFromInp = (num) => {

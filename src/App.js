@@ -12,8 +12,8 @@ function App() {
   const [fromCurr, setFromCurr] = useState(uah)
   const [toCurr, setToCurr] = useState(usd)
 
-  const [inp, setInp] = useState(0);
-  const [outp, setOutp] = useState(0);
+  const [inp, setInp] = useState();
+  const [outp, setOutp] = useState();
 
   // const request = useCallback((curr)=>{
   //   async function fetchData() {
@@ -42,75 +42,80 @@ function App() {
 
   const calcFromInp = (num) => {
     setInp(num);
-    setOutp(num*fromCurr/toCurr)
+    setOutp(Math.round(num*fromCurr/toCurr * 100) /100)
   }
 
   const calcFromOutp = (num) => {
     setOutp(num);
-    setInp(num*toCurr/fromCurr)
+    setInp(Math.round(num*toCurr/fromCurr * 100) /100)
   }
 
   const calcCurrFrom = (fromCurr) => {
     setFromCurr(fromCurr);
-    setOutp(inp*fromCurr/toCurr)
+    setOutp(Math.round(inp*fromCurr/toCurr * 100) /100)
 
   }
   const calcCurrTo = (toCurr) => {
     setToCurr(toCurr);
-    setOutp(inp*fromCurr/toCurr)
+    setOutp(Math.round(inp*fromCurr/toCurr * 100) /100)
   }
   
 
 
  
   return (
-    <div className="App">
+    <div className="container">
       <header className="App-header">
         <div className="header">
-          <h1> CURRENCY</h1>
+          <h1> CURRENCY CONVERTER</h1>
         </div>
         <div className="currency">
-          <div className="currency__value">
-            <h5>
-              USD
-            </h5>
+          <div className="currency__pair">
+            <div className="currency__value">
+              <p>
+                USD
+              </p>
+            </div>
+            <div className="currency__value">
+              <p>
+                {usd}
+              </p>
+            </div>
           </div>
-          <div className="currency__value">
-            <h5>
-              {usd}
-            </h5>
+          <div className="currency__pair">
+            <div className="currency__value">
+              <p>
+                EUR
+              </p>
+            </div>
+            <div className="currency__value">
+              <p>
+                {eur}
+              </p>
+            </div>
           </div>
         </div>
-        <div className="currency">
-          <div className="currency__value">
-            <h5>
-              EUR
-            </h5>
-          </div>
-          <div className="currency__value">
-            <h5>
-              {eur}
-            </h5>
-          </div>
-        </div>
+        
       </header>
 
+      <h3 className='subtitle'>Enter some values to convert</h3>
+
       <div className="convert">
-        <div className="">
-              <input type="text" onChange={(e)=>{calcFromInp(e.target.value); }} value={inp} />
-              <select name="" id="" defaultValue={uah} onChange={(e)=>{calcCurrFrom(e.target.value) }}>
-                <option value={usd}>usd</option>
-                <option value={uah}>uah</option>
-                <option value={eur}>eur</option>
+        <div className="convert__inputs">
+              <input placeholder='0' className='convert__input' type="number" onChange={(e)=>{calcFromInp(e.target.value); }} value={inp} />
+              <select className='convert__select' id="" defaultValue={uah} onChange={(e)=>{calcCurrFrom(e.target.value) }}>
+                <option value={usd}>USD</option>
+                <option value={uah}>UAH</option>
+                <option value={eur}>EUR</option>
             </select>
             </div>
 
-            <div className="">
-              <input type="text"  value={outp} onChange={(e)=>{calcFromOutp(e.target.value)}} />
-              <select name="" id="" defaultValue={usd} onChange={(e)=>{calcCurrTo(e.target.value) }}>
-                <option value={usd}>usd</option>
-                <option value={uah}>uah</option>
-                <option value={eur}>eur</option>
+            <div className="convert__inputs">
+              <input placeholder='0' className='convert__input' type="number"  value={outp} onChange={(e)=>{calcFromOutp(e.target.value)}} />
+              <select className='convert__select' id="" defaultValue={usd} onChange={(e)=>{calcCurrTo(e.target.value) }}>
+                <option value={usd}>USD</option>
+                <option value={uah}>UAH</option>
+                <option value={eur}>EUR</option>
               </select>
             </div>
       </div>

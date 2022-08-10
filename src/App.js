@@ -1,45 +1,56 @@
 import './App.css';
-import {useState, useEffect, useCallback, useMemo} from 'react';
+import {useState, useEffect, useCallback} from 'react';
 
 
 function App() {
 
+  // set states
+   const [usd, setUSD] = useState(0);
+   const [eur, setEUR] = useState(0);
+   const uah = 1;
 
-  const [usd, setUSD] = useState(37);
-  const [eur, setEUR] = useState(38);
-  const uah = 1;
+   const [fromCurr, setFromCurr] = useState(uah)
+   const [toCurr, setToCurr] = useState(usd)
 
-  const [fromCurr, setFromCurr] = useState(uah)
-  const [toCurr, setToCurr] = useState(usd)
-
-  const [inp, setInp] = useState();
-  const [outp, setOutp] = useState();
-
-  // const request = useCallback((curr)=>{
-  //   async function fetchData() {
-  //     const myHeaders = new Headers();
-  //     myHeaders.append("apikey", "Iy4nwrYqQQXU8thcn28N5kZaMtCdPeyU");
-  
-  //     const requestOptions = {
-  //       method: 'GET',
-  //       redirect: 'follow',
-  //       headers: myHeaders
-  //     };
-
-  //     const response = await fetch(`https://api.apilayer.com/exchangerates_data/convert?to=${curr}&from=UAH&amount=1`, requestOptions);
-  //     const result = await response.text()
-  //     const res = await JSON.parse(result)
-  //     curr === 'USD' ?  setUSD(Math.round(1/res.result*100)/100) :  setEUR(Math.round(1/res.result * 100)/100);
-      
-  //   }    
-  //   fetchData();
-  // },[])
-
-  // useEffect(()=>{request('USD'); setToCurr(usd)}, []);
-  // useEffect(()=>{request('EUR');setToCurr(eur)}, []);
+   const [inp, setInp] = useState(0);
+   const [outp, setOutp] = useState(0);
 
 
+  // request
+  const request = useCallback((curr)=>{
+     async function fetchData() {
+       const myHeaders = new Headers();
+       myHeaders.append("apikey", "EBUR1veCFtuzBmjY5MMujiIAIY90oaRM");
 
+       const requestOptions = {
+         method: 'GET',
+         redirect: 'follow',
+         headers: myHeaders
+       };
+
+       fetch(`https://api.apilayer.com/exchangerates_data/convert?to=${curr}&from=UAH&amount=1`, requestOptions)
+       .then((response)=> response.text())
+       .then ((result)=>{
+        const res = JSON.parse(result);
+        if (curr === 'USD'){
+          setUSD(Math.round(1/res.result*100)/100);
+          setToCurr(Math.round(1/res.result*100)/100)
+         }
+         else {
+          setEUR(Math.round(1/res.result * 100)/100);
+        }
+      })
+        
+
+     }    
+     fetchData();
+   },[])
+
+   useEffect(()=>{request('USD')}, []);
+   useEffect(()=>{request('EUR')}, []);
+
+
+   // calculations
   const calcFromInp = (num) => {
     setInp(num);
     setOutp(Math.round(num*fromCurr/toCurr * 100) /100)

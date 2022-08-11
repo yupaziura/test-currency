@@ -1,7 +1,8 @@
 import './App.css';
 import {useState, useEffect} from 'react';
 import fetchData from './services/GetData';
-import Box from './components/Box/Box'
+import Box from './components/Box/Box';
+import Info from './components/Info/Info';
 
 
 function App() {
@@ -69,34 +70,8 @@ function App() {
           <h1> CURRENCY CONVERTER</h1>
         </div>
         <Box num={1}>
-          <div>
-          <div className="currency__pair">
-            <div className="currency__value">
-              <p>
-                USD
-              </p>
-            </div>
-            <div className="currency__value">
-              <p>
-                {usd}
-              </p>
-            </div>
-          </div>
-          <div className="currency__pair">
-            <div className="currency__value">
-              <p>
-                EUR
-              </p>
-            </div>
-            <div className="currency__value">
-              <p>
-                {eur}
-              </p>
-            </div>
-            
-            
-        </div>
-        </div>
+            <Info name={'USD'} value={usd}/>
+            <Info name={'EUR'} value={eur}/>
         </Box>
         
       </header>

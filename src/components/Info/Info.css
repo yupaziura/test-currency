@@ -1,0 +1,8 @@
+.currency__pair {
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .currency__value{
+    margin: 10px 0;
+  }

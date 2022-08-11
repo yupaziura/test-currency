@@ -1,9 +1,14 @@
-import './App.css';
+// main
 import {useState, useEffect} from 'react';
 import fetchData from './services/GetData';
+
+// components
 import Box from './components/Box/Box';
 import Info from './components/Info/Info';
 import Input from './components/Input/Input';
+
+// stypes
+import './App.css';
 
 
 function App() {
@@ -20,27 +25,25 @@ function App() {
    const [outp, setOutp] = useState(0);
 
 
-  // request
 
- 
-// useEffect(()=> {
-//   fetchData('USD')
-//        .then((result) => {
-//         setUSD(result);
-//         setToCurr(result);
-//     })
-// }, []);
+  useEffect(()=> {
+    fetchData('USD')
+        .then((result) => {
+          setUSD(result);
+          setToCurr(result);
+      })
+  }, []);
 
-// useEffect(()=> {
-//   fetchData('EUR')
-//        .then((result) => {
-//         setEUR(result)
-//     })
-// }, []);
+  useEffect(()=> {
+    fetchData('EUR')
+        .then((result) => {
+          setEUR(result)
+      })
+  }, []);
 
 
 
-   // calculations
+  // calculations
   const calcFromInp = (num) => {
     setInp(num);
     setOutp(Math.round(num*fromCurr/toCurr * 100) /100)

@@ -1,12 +1,21 @@
+// main
+import {useState, useEffect} from 'react';
+import fetchData from './services/GetData';
+
+// components
+import Box from './components/Box/Box';
+import Info from './components/Info/Info';
+import Input from './components/Input/Input';
+
+// stypes
 import './App.css';
-import {useState, useEffect, useCallback} from 'react';
 
 
 function App() {
 
   // set states
-   const [usd, setUSD] = useState(0);
-   const [eur, setEUR] = useState(0);
+   const [usd, setUSD] = useState();
+   const [eur, setEUR] = useState();
    const uah = 1;
 
    const [fromCurr, setFromCurr] = useState(uah)
@@ -16,41 +25,25 @@ function App() {
    const [outp, setOutp] = useState(0);
 
 
-  // request
-  const request = useCallback((curr)=>{
-     async function fetchData() {
-       const myHeaders = new Headers();
-       myHeaders.append("apikey", "EBUR1veCFtuzBmjY5MMujiIAIY90oaRM");
 
-       const requestOptions = {
-         method: 'GET',
-         redirect: 'follow',
-         headers: myHeaders
-       };
-
-       fetch(`https://api.apilayer.com/exchangerates_data/convert?to=${curr}&from=UAH&amount=1`, requestOptions)
-       .then((response)=> response.text())
-       .then ((result)=>{
-        const res = JSON.parse(result);
-        if (curr === 'USD'){
-          setUSD(Math.round(1/res.result*100)/100);
-          setToCurr(Math.round(1/res.result*100)/100)
-         }
-         else {
-          setEUR(Math.round(1/res.result * 100)/100);
-        }
+  useEffect(()=> {
+    fetchData('USD')
+        .then((result) => {
+          setUSD(result);
+          setToCurr(result);
       })
-        
+  }, []);
 
-     }    
-     fetchData();
-   },[])
+  useEffect(()=> {
+    fetchData('EUR')
+        .then((result) => {
+          setEUR(result)
+      })
+  }, []);
 
-   useEffect(()=>{request('USD')}, []);
-   useEffect(()=>{request('EUR')}, []);
 
 
-   // calculations
+  // calculations
   const calcFromInp = (num) => {
     setInp(num);
     setOutp(Math.round(num*fromCurr/toCurr * 100) /100)
@@ -80,56 +73,19 @@ function App() {
         <div className="header">
           <h1> CURRENCY CONVERTER</h1>
         </div>
-        <div className="currency">
-          <div className="currency__pair">
-            <div className="currency__value">
-              <p>
-                USD
-              </p>
-            </div>
-            <div className="currency__value">
-              <p>
-                {usd}
-              </p>
-            </div>
-          </div>
-          <div className="currency__pair">
-            <div className="currency__value">
-              <p>
-                EUR
-              </p>
-            </div>
-            <div className="currency__value">
-              <p>
-                {eur}
-              </p>
-            </div>
-          </div>
-        </div>
+        <Box num={1}>
+            <Info name={'USD'} value={usd}/>
+            <Info name={'EUR'} value={eur}/>
+        </Box>
         
       </header>
 
       <h3 className='subtitle'>Enter some values to convert</h3>
 
-      <div className="convert">
-        <div className="convert__inputs">
-              <input placeholder='0' className='convert__input' type="number" onChange={(e)=>{calcFromInp(e.target.value); }} value={inp} />
-              <select className='convert__select' id="" defaultValue={uah} onChange={(e)=>{calcCurrFrom(e.target.value) }}>
-                <option value={usd}>USD</option>
-                <option value={uah}>UAH</option>
-                <option value={eur}>EUR</option>
-            </select>
-            </div>
-
-            <div className="convert__inputs">
-              <input placeholder='0' className='convert__input' type="number"  value={outp} onChange={(e)=>{calcFromOutp(e.target.value)}} />
-              <select className='convert__select' id="" defaultValue={usd} onChange={(e)=>{calcCurrTo(e.target.value) }}>
-                <option value={usd}>USD</option>
-                <option value={uah}>UAH</option>
-                <option value={eur}>EUR</option>
-              </select>
-            </div>
-      </div>
+      <Box num = {0}>
+        <Input calcInput={calcFromInp} calcSelect={calcCurrFrom} value={inp} defaultValue={uah} usd={usd} eur={eur} uah={uah}/>
+        <Input calcInput={calcFromOutp} calcSelect={calcCurrTo} value={outp} defaultValue={usd} usd={usd} eur={eur} uah={uah}/>
+      </Box>
     </div>
   );
 }

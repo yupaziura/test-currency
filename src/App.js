@@ -1,6 +1,7 @@
 import './App.css';
 import {useState, useEffect} from 'react';
 import fetchData from './services/GetData';
+import Box from './components/Box/Box'
 
 
 function App() {
@@ -20,20 +21,20 @@ function App() {
   // request
 
  
-useEffect(()=> {
-  fetchData('USD')
-       .then((result) => {
-        setUSD(result);
-        setToCurr(result);
-    })
-}, []);
+// useEffect(()=> {
+//   fetchData('USD')
+//        .then((result) => {
+//         setUSD(result);
+//         setToCurr(result);
+//     })
+// }, []);
 
-useEffect(()=> {
-  fetchData('EUR')
-       .then((result) => {
-        setEUR(result)
-    })
-}, []);
+// useEffect(()=> {
+//   fetchData('EUR')
+//        .then((result) => {
+//         setEUR(result)
+//     })
+// }, []);
 
 
 
@@ -67,7 +68,8 @@ useEffect(()=> {
         <div className="header">
           <h1> CURRENCY CONVERTER</h1>
         </div>
-        <div className="currency">
+        <Box num={1}>
+          <div>
           <div className="currency__pair">
             <div className="currency__value">
               <p>
@@ -91,14 +93,17 @@ useEffect(()=> {
                 {eur}
               </p>
             </div>
-          </div>
+            
+            
         </div>
+        </div>
+        </Box>
         
       </header>
 
       <h3 className='subtitle'>Enter some values to convert</h3>
 
-      <div className="convert">
+      <Box num = {0}>
         <div className="convert__inputs">
               <input placeholder='0' className='convert__input' type="number" onChange={(e)=>{calcFromInp(e.target.value); }} value={inp} />
               <select className='convert__select' id="" defaultValue={uah} onChange={(e)=>{calcCurrFrom(e.target.value) }}>
@@ -116,7 +121,7 @@ useEffect(()=> {
                 <option value={eur}>EUR</option>
               </select>
             </div>
-      </div>
+      </Box>
     </div>
   );
 }

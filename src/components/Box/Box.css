@@ -1,0 +1,16 @@
+.box{
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+  
+    max-width: 400px;
+    min-height: 160px;
+    margin: 0 auto;
+    padding: 25px;
+
+  
+    font-size: 25px;
+    font-weight: bold;
+  
+    border-radius: 10px;
+  }

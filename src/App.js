@@ -3,13 +3,14 @@ import {useState, useEffect} from 'react';
 import fetchData from './services/GetData';
 import Box from './components/Box/Box';
 import Info from './components/Info/Info';
+import Input from './components/Input/Input';
 
 
 function App() {
 
   // set states
-   const [usd, setUSD] = useState(0);
-   const [eur, setEUR] = useState(0);
+   const [usd, setUSD] = useState();
+   const [eur, setEUR] = useState();
    const uah = 1;
 
    const [fromCurr, setFromCurr] = useState(uah)
@@ -79,23 +80,8 @@ function App() {
       <h3 className='subtitle'>Enter some values to convert</h3>
 
       <Box num = {0}>
-        <div className="convert__inputs">
-              <input placeholder='0' className='convert__input' type="number" onChange={(e)=>{calcFromInp(e.target.value); }} value={inp} />
-              <select className='convert__select' id="" defaultValue={uah} onChange={(e)=>{calcCurrFrom(e.target.value) }}>
-                <option value={usd}>USD</option>
-                <option value={uah}>UAH</option>
-                <option value={eur}>EUR</option>
-            </select>
-            </div>
-
-            <div className="convert__inputs">
-              <input placeholder='0' className='convert__input' type="number"  value={outp} onChange={(e)=>{calcFromOutp(e.target.value)}} />
-              <select className='convert__select' id="" defaultValue={usd} onChange={(e)=>{calcCurrTo(e.target.value) }}>
-                <option value={usd}>USD</option>
-                <option value={uah}>UAH</option>
-                <option value={eur}>EUR</option>
-              </select>
-            </div>
+        <Input calcInput={calcFromInp} calcSelect={calcCurrFrom} value={inp} defaultValue={uah} usd={usd} eur={eur} uah={uah}/>
+        <Input calcInput={calcFromOutp} calcSelect={calcCurrTo} value={outp} defaultValue={usd} usd={usd} eur={eur} uah={uah}/>
       </Box>
     </div>
   );

@@ -1,6 +1,6 @@
 # Currency converter - test task
 
-## Task
+## Task 📋
 
 ### Header with exchange rate
 

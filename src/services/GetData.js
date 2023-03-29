@@ -1,6 +1,11 @@
-    async function fetchData(curr) {
+    import { useState } from "react";
+    
+    export const useFetchData = () => {
+        const [loading, setLoading] = useState('false');
+
         const myHeaders = new Headers();
-        myHeaders.append("apikey", "EBUR1veCFtuzBmjY5MMujiIAIY90oaRM");
+        const apiKey = process.env.REACT_APP_API_KEY.replace(/['";]+/g, '');;
+        myHeaders.append("apikey", apiKey);
 
         const requestOptions = {
             method: 'GET',
@@ -8,14 +13,23 @@
             headers: myHeaders
         };
 
-            
-        return  await fetch(`https://api.apilayer.com/exchangerates_data/convert?to=UAH&from=${curr}&amount=1`, requestOptions)
-                .then((response) => response.text())
-                .then((result) => {
-                    const res = JSON.parse(result);
-                    const curr = Math.round(res.result * 100) / 100;
-                return curr})
+
+        const request = async () => {
+            setLoading(true);
+            try{
+                const req = await fetch(`https://api.currencyapi.com/v3/latest?apikey=${apiKey}&currencies=EUR%2CUSD&base_currency=UAH`, requestOptions);
+                const response = await req.text();
+
+                const result = await JSON.parse(response);
+                setLoading(false);
+                return result.data
+            }
+            catch(e){
+                setLoading(false);
+                console.log(e)
+            }
+        }
+
+        return {request, loading};
+
     }    
-
-
-export default fetchData;

@@ -1,6 +1,6 @@
 // main
 import {useState, useEffect} from 'react';
-import fetchData from './services/GetData';
+import {useFetchData} from './services/GetData';
 
 // components
 import Box from './components/Box/Box';
@@ -24,23 +24,16 @@ function App() {
    const [inp, setInp] = useState('');
    const [outp, setOutp] = useState('');
 
-
-
-  useEffect(()=> {
-    fetchData('USD')
-        .then((result) => {
-          setUSD(result);
-          setToCurr(result);
-      })
-  }, []);
+   const {request, loading} = useFetchData();
 
   useEffect(()=> {
-    fetchData('EUR')
+      request ()
         .then((result) => {
-          setEUR(result)
+          setUSD(Math.round(1 / result.USD.value * 100) / 100);
+          setEUR(Math.round(1 / result.EUR.value * 100) / 100)
+          setToCurr(Math.round(1 / result.USD.value * 100) / 100);
       })
   }, []);
-
 
 
   // calculations
@@ -71,10 +64,16 @@ function App() {
     <div className="container">
       <header className="App-header">
         <h1 className="header"> CURRENCY CONVERTER</h1>
-        
+
         <Box num={1}>
-            <Info name={'USD'} value={usd}/>
-            <Info name={'EUR'} value={eur}/>
+          {loading?
+            <p>loading...</p>
+            :
+            <>
+              <Info name={'USD'} value={usd}/>
+              <Info name={'EUR'} value={eur}/>
+            </>
+          }
         </Box>
       </header>
 

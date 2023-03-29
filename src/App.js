@@ -21,8 +21,8 @@ function App() {
    const [fromCurr, setFromCurr] = useState(uah)
    const [toCurr, setToCurr] = useState(usd)
 
-   const [inp, setInp] = useState(0);
-   const [outp, setOutp] = useState(0);
+   const [inp, setInp] = useState('');
+   const [outp, setOutp] = useState('');
 
 
 
@@ -70,22 +70,22 @@ function App() {
   return (
     <div className="container">
       <header className="App-header">
-        <div className="header">
-          <h1> CURRENCY CONVERTER</h1>
-        </div>
+        <h1 className="header"> CURRENCY CONVERTER</h1>
+        
         <Box num={1}>
             <Info name={'USD'} value={usd}/>
             <Info name={'EUR'} value={eur}/>
         </Box>
-        
       </header>
 
-      <h3 className='subtitle'>Enter some values to convert</h3>
+      <section className='section'>
+        <h3 className='subtitle'>Enter some values to convert</h3>
 
-      <Box num = {0}>
-        <Input calcInput={calcFromInp} calcSelect={calcCurrFrom} value={inp} defaultValue={uah} usd={usd} eur={eur} uah={uah}/>
-        <Input calcInput={calcFromOutp} calcSelect={calcCurrTo} value={outp} defaultValue={usd} usd={usd} eur={eur} uah={uah}/>
-      </Box>
+        <Box num = {0}>
+          <Input calcInput={calcFromInp} calcSelect={calcCurrFrom} value={inp} defaultValue={uah} usd={usd} eur={eur} uah={uah}/>
+          <Input calcInput={calcFromOutp} calcSelect={calcCurrTo} value={outp} defaultValue={usd} usd={usd} eur={eur} uah={uah}/>
+        </Box>
+      </section>
     </div>
   );
 }
